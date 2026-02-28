@@ -1,4 +1,4 @@
-package unpa.entity;
+package unpa.entity.reportes;
 
 import java.io.File;
 import java.io.InputStream;
@@ -7,7 +7,13 @@ import java.util.List;
 import java.util.Optional;
 
 import net.sf.jasperreports.engine.*;
-import unpa.entity.reportes.Reporte;
+import unpa.entity.utils.CalendarioTMP;
+import unpa.entity.utils.ErrorSE;
+import unpa.entity.profesores.ProfesorReporteProjection;
+import unpa.entity.profesores.SinodalProjection;
+import unpa.entity.actas.Acta;
+import unpa.entity.universidad.CampusProjection;
+import unpa.entity.universidad.UniversidadProjection;
 import unpa.entity.utils.FechaUtils;
 
 import javax.sql.DataSource;
@@ -67,7 +73,7 @@ public class AcusedeRecibo extends Reporte {
     }
 
    
-    public File generateTemporaryPDF(InputStream jasperStream,CampusProjection encabezado, ProfesorReporteProjection prof, List<SinodalProjection> sinodales, String carrera, Optional<Acta> actaOpt , UniversidadProjection universidad) {
+    public File generateTemporaryPDF(InputStream jasperStream, CampusProjection encabezado, ProfesorReporteProjection prof, List<SinodalProjection> sinodales, String carrera, Optional<Acta> actaOpt , UniversidadProjection universidad) {
         try {
             //File reportFile = new File(ruta + "/" + getArchivoJasper());
             setParametros(encabezado,prof,sinodales,carrera,actaOpt,universidad);

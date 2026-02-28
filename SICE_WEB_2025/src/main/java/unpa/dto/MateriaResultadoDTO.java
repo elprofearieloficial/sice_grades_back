@@ -1,4 +1,4 @@
-package unpa.entity.materias;
+package unpa.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

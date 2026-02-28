@@ -23,6 +23,7 @@ import java.util.List;
 public class AlumnoDetails implements UserDetails {
 
     private String matricula;
+    private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -31,7 +32,7 @@ public class AlumnoDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null; // si no usas password aquí puedes devolver null
+        return password; // si no usas password aquí puedes devolver null
     }
 
     @Override

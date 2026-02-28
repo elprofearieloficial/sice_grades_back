@@ -1,9 +1,9 @@
-package unpa.service;
+package unpa.service.universidad;
 
 import org.springframework.stereotype.Service;
-import unpa.entity.PeriodoEscolar;
-import unpa.entity.PeriodoEscolarId;
-import unpa.repository.PeriodoEscolarRepository;
+import unpa.entity.universidad.PeriodoEscolar;
+import unpa.entity.universidad.PeriodoEscolarId;
+import unpa.repository.universidad.PeriodoEscolarRepository;
 
 import java.util.List;
 

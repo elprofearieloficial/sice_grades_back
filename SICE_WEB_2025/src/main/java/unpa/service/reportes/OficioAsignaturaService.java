@@ -1,15 +1,14 @@
-package unpa.service;
+package unpa.service.reportes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import unpa.entity.ErrorSE;
-import unpa.entity.OficioAsignatura;
-import unpa.entity.OficioAsignaturaId;
-import unpa.entity.PeriodoEscolar;
-import unpa.repository.FolioRepository;
-import unpa.repository.OficioAsignaturaRepository;
+import unpa.entity.actas.OficioAsignatura;
+import unpa.entity.actas.OficioAsignaturaId;
+import unpa.entity.universidad.PeriodoEscolar;
+import unpa.repository.utils.FolioRepository;
+import unpa.repository.reportes.OficioAsignaturaRepository;
+import unpa.service.utils.FolioService;
 
-import java.sql.SQLException;
 import java.time.Year;
 import java.util.Optional;
 import java.util.StringTokenizer;
@@ -23,7 +22,8 @@ public class OficioAsignaturaService {
     @Autowired
     FolioRepository folioRepository;
 
-    @Autowired FolioService folioService;
+    @Autowired
+    FolioService folioService;
 
 
     public OficioAsignatura registrar(OficioAsignatura oficio, String claveCarrera, PeriodoEscolar periodo) {

@@ -1,8 +1,8 @@
 package unpa.controller;
 
 import org.springframework.web.bind.annotation.*;
-import unpa.entity.PeriodoEscolar;
-import unpa.service.PeriodoEscolarService;
+import unpa.entity.universidad.PeriodoEscolar;
+import unpa.service.universidad.PeriodoEscolarService;
 
 import java.util.List;
 

@@ -3,8 +3,8 @@ package unpa.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unpa.entity.CicloEscolar;
-import unpa.service.CicloEscolarService;
+import unpa.entity.universidad.CicloEscolar;
+import unpa.service.universidad.CicloEscolarService;
 
 import java.util.List;
 

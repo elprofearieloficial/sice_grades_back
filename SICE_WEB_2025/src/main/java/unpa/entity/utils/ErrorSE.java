@@ -1,4 +1,6 @@
-package unpa.entity;
+package unpa.entity.utils;
+
+import unpa.entity.LoggerSICE;
 
 import javax.swing.JOptionPane;
 /**

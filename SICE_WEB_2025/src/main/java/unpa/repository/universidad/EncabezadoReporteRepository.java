@@ -1,11 +1,11 @@
-package unpa.repository;
+package unpa.repository.universidad;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import unpa.entity.CampusProjection;
-import unpa.entity.Materia;
+import unpa.entity.universidad.CampusProjection;
+import unpa.entity.materias.Materia;
 
 @Repository
 public interface EncabezadoReporteRepository extends JpaRepository<Materia, String> {

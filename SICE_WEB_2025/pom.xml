@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.30</version> <!-- Usa la última versión estable -->
+			<version>1.18.38</version> <!-- Usa la última versión estable -->
 			<scope>provided</scope>
 		</dependency>
 
@@ -110,6 +110,12 @@
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy</artifactId>
 			<version>3.0.9</version> <!-- O una versión compatible con tu versión de JasperReports -->
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.16.1</version>
 		</dependency>
 
 	</dependencies>

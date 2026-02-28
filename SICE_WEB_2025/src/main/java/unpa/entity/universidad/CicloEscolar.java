@@ -1,4 +1,4 @@
-package unpa.entity;
+package unpa.entity.universidad;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,4 +1,4 @@
-package unpa.service;
+package unpa.service.universidad;
 
 public class CarreraService {
 }

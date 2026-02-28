@@ -1,9 +1,9 @@
-package  unpa.service;
+package unpa.service.materias;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import unpa.entity.CalificacionMateriaDTO;
-import unpa.repository.CalificacionRepository;
+import unpa.dto.CalificacionMateriaDTO;
+import unpa.repository.materias.CalificacionRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

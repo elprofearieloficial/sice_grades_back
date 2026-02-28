@@ -1,4 +1,4 @@
-package unpa.entity;
+package unpa.entity.materias;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

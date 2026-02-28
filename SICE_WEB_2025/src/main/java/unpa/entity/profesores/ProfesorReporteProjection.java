@@ -1,4 +1,4 @@
-package unpa.entity;
+package unpa.entity.profesores;
 
 public interface ProfesorReporteProjection {
     String getNombreMat();

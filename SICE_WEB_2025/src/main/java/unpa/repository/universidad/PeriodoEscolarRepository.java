@@ -1,9 +1,9 @@
-package unpa.repository;
+package unpa.repository.universidad;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import unpa.entity.PeriodoEscolar;
-import unpa.entity.PeriodoEscolarId;
+import unpa.entity.universidad.PeriodoEscolar;
+import unpa.entity.universidad.PeriodoEscolarId;
 
 import java.util.List;
 

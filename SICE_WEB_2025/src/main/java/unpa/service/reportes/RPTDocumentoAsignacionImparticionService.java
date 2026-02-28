@@ -2,12 +2,17 @@ package unpa.service.reportes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import unpa.entity.*;
+import unpa.entity.actas.OficioAsignatura;
+import unpa.entity.actas.OficioAsignaturaId;
+import unpa.entity.materias.MateriaImpartidaData;
 import unpa.entity.reportes.RptConstanciaImparticion;
+import unpa.entity.universidad.*;
 import unpa.entity.utils.FechaUtils;
-import unpa.repository.*;
-import unpa.service.MateriaImpartidaService;
-import unpa.service.OficioAsignaturaService;
+import unpa.repository.reportes.OficioAsignaturaRepository;
+import unpa.repository.universidad.JefeCarreraRepository;
+import unpa.repository.universidad.PeriodoEscolarRepository;
+import unpa.repository.universidad.UniversidadRepository;
+import unpa.service.universidad.MateriaImpartidaService;
 
 import javax.sql.DataSource;
 import java.io.File;

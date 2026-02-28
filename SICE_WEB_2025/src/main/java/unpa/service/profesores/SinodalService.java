@@ -1,13 +1,11 @@
-package unpa.service;
+package unpa.service.profesores;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import unpa.entity.SinodalProjection;
-import unpa.repository.SinodalesExtraordinariosRepository;
+import unpa.entity.profesores.SinodalProjection;
+import unpa.repository.profesores.SinodalesExtraordinariosRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

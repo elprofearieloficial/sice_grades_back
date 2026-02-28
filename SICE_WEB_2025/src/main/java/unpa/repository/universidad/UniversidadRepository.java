@@ -1,12 +1,11 @@
-package unpa.repository;
+package unpa.repository.universidad;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import unpa.entity.CampusProjection;
-import unpa.entity.Universidad;
-import unpa.entity.UniversidadDTO;
-import unpa.entity.UniversidadProjection;
+import unpa.entity.universidad.CampusProjection;
+import unpa.entity.universidad.Universidad;
+import unpa.entity.universidad.UniversidadProjection;
 
 public interface UniversidadRepository extends JpaRepository<Universidad, String> {
     @Query(value = """
@@ -55,5 +54,4 @@ public interface UniversidadRepository extends JpaRepository<Universidad, String
         WHERE u.Id_Uni = :idUni and c.Id_Cam =:idCampus
         """, nativeQuery = true)
     CampusProjection obtenerCampus(@Param("idUni") String idUni, @Param("idCampus") String idCampus);
-    //EncabezadoReporteProjection obtenerEncabezado(@Param("idCampus") String idCampus);
 }

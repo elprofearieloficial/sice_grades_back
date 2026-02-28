@@ -1,11 +1,8 @@
-package unpa.entity.Alumnos;
+package unpa.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @Data
@@ -36,7 +33,10 @@ public class AlumnoConstanciaDTO {
     private String nss;
     private String matricula;
     private int ultimoSemestre;
-    private Float promedioGeneral;
+    private Double promedioGeneral;
+    private int totalCreditos;
+    private String nombreCarrera;
+    private String planEstudio;
 
     // Método para generar el nombre completo automáticamente si no lo pasas
     public String getNombreCompleto() {

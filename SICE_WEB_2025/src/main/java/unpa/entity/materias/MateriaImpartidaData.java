@@ -1,6 +1,4 @@
-package unpa.entity;
-
-import lombok.Data;
+package unpa.entity.materias;
 
 import java.sql.Date;
 

@@ -1,4 +1,4 @@
-package unpa.entity;
+package unpa.entity.universidad;
 
 public interface CampusProjection {
     String getNombreCam();
@@ -9,4 +9,5 @@ public interface CampusProjection {
     String getTelefonoCam();
     String getFaxCam();
     String getIdCam();
+
 }

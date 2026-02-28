@@ -3,7 +3,12 @@ package unpa.entity.reportes;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import unpa.entity.*;
+import unpa.entity.actas.OficioAsignatura;
+import unpa.entity.materias.MateriaImpartidaData;
+import unpa.entity.universidad.CampusProjection;
+import unpa.entity.universidad.JefeCarreraDTO;
+import unpa.entity.universidad.PeriodoEscolar;
+import unpa.entity.universidad.UniversidadProjection;
 import unpa.entity.utils.FechaUtils;
 
 import javax.sql.DataSource;

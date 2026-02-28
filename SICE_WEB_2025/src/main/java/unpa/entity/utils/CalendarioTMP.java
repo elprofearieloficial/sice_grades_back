@@ -11,14 +11,10 @@
  * es: inicio de semestres. periódos de examenes ordinarios, finales,
  * extraordinarios, etc. Fecha de actualización: 29/02/2024
  */
-package unpa.entity;
-
-import org.springframework.web.bind.annotation.GetMapping;
+package unpa.entity.utils;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.StringTokenizer;
-import java.sql.*;
 import java.util.LinkedList;
 
 public class CalendarioTMP {

@@ -1,11 +1,9 @@
-package unpa.service;
+package unpa.service.universidad;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
-import unpa.entity.MateriaImpartidaData;
-import unpa.repository.FolioRepository;
-import unpa.repository.MateriaImpartidaRepository;
+import unpa.entity.materias.MateriaImpartidaData;
+import unpa.repository.materias.MateriaImpartidaRepository;
 
 @Service
 public class MateriaImpartidaService {

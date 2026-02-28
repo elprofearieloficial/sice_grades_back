@@ -1,4 +1,4 @@
-package unpa.entity;
+package unpa.entity.universidad;
 
 public interface JefeCarreraDTO {
     String getNombre();

@@ -1,10 +1,10 @@
-package unpa.service;
+package unpa.service.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import unpa.entity.Folio;
-import unpa.repository.FolioRepository;
+import unpa.repository.utils.FolioRepository;
 
 import java.time.Year;
 import java.util.List;

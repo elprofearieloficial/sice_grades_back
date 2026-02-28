@@ -1,83 +1,80 @@
 package unpa.service.reportes;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import unpa.entity.Alumnos.AlumnoConstanciaDTO;
-import unpa.entity.Alumnos.ReinscripcionPeriodoProjection;
-import unpa.entity.actas.OficioAsignatura;
-import unpa.entity.reportes.RptConstanciaEstudios;
+import unpa.dto.AlumnoConstanciaDTO;
+import unpa.entity.reportes.RptHistorialAcademico;
 import unpa.entity.universidad.CampusProjection;
-import unpa.entity.universidad.PeriodoEscolar;
-import unpa.entity.universidad.PeriodoEscolarId;
 import unpa.entity.universidad.UniversidadProjection;
-import unpa.repository.universidad.PeriodoEscolarRepository;
 import unpa.repository.universidad.UniversidadRepository;
 import unpa.service.alumnos.AlumnoService;
+import unpa.service.universidad.CampusService;
 
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.InputStream;
 
 @Service
-public class RPTConstanciaEstudiosService {
+public class RPTHistorialAcademicoService {
     @Autowired
     private DataSource dataSource;
     @Autowired
     private AlumnoService alumnoService;
     @Autowired
     private UniversidadRepository universidadRepository;
+
     @Autowired
-    private PeriodoEscolarRepository periodoEscolarRepository;
+    private CampusService campusService;
 
-
-    public File generarPDF(String matricula, int tipoConstancia) {
-
-        if (tipoConstancia == 1) {
-            return generarPDFSinHistorial(matricula);
-        }else {
-            return generarPDFConHistorial(matricula);
-        }
-    }
-
-
-    public File generarPDFSinHistorial(String matricula) {
+    public File generarPDF(String matricula) {
         InputStream jasperStream;
         try {
+            // 1. Obtenemos datos (esto es rápido y no usa la conexión directa de JDBC)
             UniversidadProjection universidad = universidadRepository.findDatosUniversidad("20MSU0020Q");
             CampusProjection campus = universidadRepository.obtenerCampus("20MSU0020Q", "20ESU3001N");
             AlumnoConstanciaDTO alumno = alumnoService.obtenerDatosConstancia(matricula);
-            RptConstanciaEstudios rpt = new RptConstanciaEstudios(dataSource);
-            PeriodoEscolar periodoEscolarObject = periodoEscolarRepository.findUltimoCicloEscolar();
-            jasperStream = getClass().getResourceAsStream("/reportes/constanciaestudios.jasper");
-            System.out.println("CONSTANCIA de estudios");
-            return rpt.generateTemporaryPDFSinHistorial(jasperStream, universidad, campus, alumno, periodoEscolarObject);
+            String domicilioCampus = campusService.obtenerDireccionCampus("20MSU0020Q", "20ESU3001N");
+
+            // 2. AQUÍ ESTÁ EL ARREGLO: 'try (...)'
+            // Esto asegura que rpt.close() se ejecute automáticamente al llegar a la llave de cierre '}'
+            try (RptHistorialAcademico rpt = new RptHistorialAcademico(dataSource)) {
+
+                jasperStream = getClass().getResourceAsStream("/reportes/historial.jasper");
+                System.out.println("Historial Academico");
+
+                // Generamos y retornamos
+                return rpt.generateTemporaryPDF(jasperStream, universidad, campus, domicilioCampus, alumno);
+            }
+            // 3. ¡Aquí la conexión ya se cerró sola y volvió al pool!
+
         } catch (Exception error) {
             error.printStackTrace();
             return null;
         }
     }
 
-    public File generarPDFConHistorial(String matricula) {
-
-        ReinscripcionPeriodoProjection reinscripcionPeriodoProjection = alumnoService.obtenerReinscripcionPeriodo(matricula);
-        PeriodoEscolarId inicial = new PeriodoEscolarId(reinscripcionPeriodoProjection.getPrimerCiclo(), reinscripcionPeriodoProjection.getPrimerPeriodo());
-        PeriodoEscolarId fin = new PeriodoEscolarId(reinscripcionPeriodoProjection.getUltimoCiclo(), reinscripcionPeriodoProjection.getUltimoPeriodo());
-        PeriodoEscolar periodoEscolarInicial = periodoEscolarRepository.getReferenceById(inicial);
-        PeriodoEscolar periodoEscolarFinal = periodoEscolarRepository.getReferenceById(fin);
+    public JasperPrint generarJasperPrint(String matricula) {
         InputStream jasperStream;
         try {
-            jasperStream = getClass().getResourceAsStream("/reportes/constanciahistorial.jasper");
-            System.out.println("CONSTANCIA CON HISTORIAL");
             UniversidadProjection universidad = universidadRepository.findDatosUniversidad("20MSU0020Q");
             CampusProjection campus = universidadRepository.obtenerCampus("20MSU0020Q", "20ESU3001N");
             AlumnoConstanciaDTO alumno = alumnoService.obtenerDatosConstancia(matricula);
-            RptConstanciaEstudios rpt = new RptConstanciaEstudios(dataSource);
-            System.out.println("CONSTANCIA CON HISTORIAL");
-            return rpt.generateTemporaryPDFConHistorial(jasperStream, universidad, campus, alumno, reinscripcionPeriodoProjection, periodoEscolarInicial, periodoEscolarFinal);
+            String domicilioCampus = campusService.obtenerDireccionCampus("20MSU0020Q", "20ESU3001N");
+
+            // 2. APLICAMOS EL MISMO ARREGLO AQUÍ
+            try (RptHistorialAcademico rpt = new RptHistorialAcademico(dataSource)) {
+
+                jasperStream = getClass().getResourceAsStream("/reportes/historial.jasper");
+                System.out.println("Historial Academico");
+
+                return rpt.generateJasperPrint(jasperStream, universidad, campus, domicilioCampus, alumno);
+            }
+            // 3. Conexión liberada
+
         } catch (Exception error) {
             error.printStackTrace();
             return null;
         }
     }
-
 }

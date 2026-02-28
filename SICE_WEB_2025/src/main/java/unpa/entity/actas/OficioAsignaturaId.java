@@ -1,4 +1,4 @@
-package unpa.entity;
+package unpa.entity.actas;
 import lombok.*;
 
 import java.io.Serializable;

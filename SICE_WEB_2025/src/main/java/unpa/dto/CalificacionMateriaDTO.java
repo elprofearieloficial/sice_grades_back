@@ -1,4 +1,4 @@
-package unpa.entity;
+package unpa.dto;
 
 import lombok.Data;
 
@@ -14,6 +14,4 @@ public class CalificacionMateriaDTO {
         this.grupo = grupo;
         this.calificacion = calificacion;
     }
-
-    // Getters y setters
 }

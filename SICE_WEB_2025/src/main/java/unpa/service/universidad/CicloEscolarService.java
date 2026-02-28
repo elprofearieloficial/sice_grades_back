@@ -1,11 +1,10 @@
-package unpa.service;
+package unpa.service.universidad;
 
 import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import unpa.entity.CicloEscolar;
-import unpa.repository.CicloEscolarRepository;
+import unpa.entity.universidad.CicloEscolar;
+import unpa.repository.universidad.CicloEscolarRepository;
 
 import java.util.List;
 import java.util.Optional;

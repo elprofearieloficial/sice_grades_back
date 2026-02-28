@@ -1,4 +1,4 @@
-package unpa.entity;
+package unpa.entity.actas;
 
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;

@@ -1,6 +1,5 @@
-package unpa.entity;
+package unpa.entity.universidad;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

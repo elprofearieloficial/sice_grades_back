@@ -1,11 +1,11 @@
-package unpa.repository;
+package unpa.repository.materias;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import unpa.entity.Materia;
-import unpa.entity.MateriaId;
-import unpa.entity.materias.MateriaCursadaDTO;
+import unpa.entity.materias.Materia;
+import unpa.entity.materias.MateriaId;
+import unpa.dto.MateriaCursadaDTO;
 
 import java.util.List;
 

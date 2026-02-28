@@ -1,9 +1,9 @@
-package unpa.service;
+package unpa.service.universidad;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import unpa.entity.UniversidadProjection;
-import unpa.repository.UniversidadRepository;
+import unpa.entity.universidad.UniversidadProjection;
+import unpa.repository.universidad.UniversidadRepository;
 
 @Service
 @RequiredArgsConstructor

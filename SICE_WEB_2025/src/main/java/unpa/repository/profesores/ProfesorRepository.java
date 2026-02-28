@@ -1,10 +1,10 @@
-package unpa.repository;
+package unpa.repository.profesores;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import unpa.entity.Profesor;
-import unpa.entity.ProfesorDTO;
+import unpa.entity.profesores.Profesor;
+import unpa.entity.profesores.ProfesorDTO;
 
 import java.util.List;
 

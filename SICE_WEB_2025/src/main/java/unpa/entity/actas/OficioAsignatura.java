@@ -1,9 +1,8 @@
-package unpa.entity;
+package unpa.entity.actas;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity

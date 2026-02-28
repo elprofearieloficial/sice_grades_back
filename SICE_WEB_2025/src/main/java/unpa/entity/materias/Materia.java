@@ -1,7 +1,8 @@
-package unpa.entity;
+package unpa.entity.materias;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import unpa.entity.universidad.PlanEstudios;
 
 @Entity
 @Table(name = "materias")

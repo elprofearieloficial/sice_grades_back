@@ -1,11 +1,11 @@
-package unpa.repository;
+package unpa.repository.profesores;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import unpa.entity.SinodalProjection;
-import unpa.entity.SinodalesExtraordinarios;
+import unpa.entity.profesores.SinodalProjection;
+import unpa.entity.profesores.SinodalesExtraordinarios;
 
 import java.util.List;
 

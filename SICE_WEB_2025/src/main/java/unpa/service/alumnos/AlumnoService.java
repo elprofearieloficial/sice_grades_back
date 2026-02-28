@@ -1,14 +1,14 @@
-package unpa.service;
+package unpa.service.alumnos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import unpa.dto.*;
 import unpa.entity.Alumnos.*;
-import unpa.entity.Carrera;
-import unpa.entity.materias.MateriaCursadaDTO;
-import unpa.entity.materias.MateriaResultadoDTO;
+import unpa.entity.universidad.Carrera;
 import unpa.entity.utils.FechaUtils;
-import unpa.repository.MateriaRepository;
+import unpa.repository.materias.CalendarioExamenRepository;
+import unpa.repository.materias.MateriaRepository;
 import unpa.repository.alumnos.*;
 
 import java.time.LocalDate;
@@ -34,6 +34,9 @@ public class AlumnoService {
 
     @Autowired
     private ReinscripcionRepository reinscripcionRepository;
+
+    @Autowired
+    private CalendarioExamenRepository calendarioExamenRepositoryRepository;
 
     @Value("${valores.promedioMinimo:6}")
     private float promedioMinimo; // si usas una constante, puedes usar 6 directamente
@@ -82,6 +85,10 @@ public class AlumnoService {
                 .nss(alumno.getNss())
                 .matricula(alumno.getId())
                 .ultimoSemestre(reinscripcionRepository.findUltimoSemestreByAlumno(alumno.getId()).get())
+                .promedioGeneral(calcularPromedio(idAlumno))
+                .totalCreditos(alumnoRepository.obtenerCreditosAprobados(alumno.getId()))
+                .nombreCarrera(carrera != null ? carrera.getNombre() : "")
+                .planEstudio(alumnoRepository.obtenerPlanEstudios(alumno.getId()))
                 .build();
     }
 
@@ -180,4 +187,61 @@ public class AlumnoService {
     }
 
     // aquí puedes agregar el método que genera el PDF con JasperReports
+
+    public ReinscripcionPeriodoProjection obtenerReinscripcionPeriodo(String matricula) {
+        Optional<ReinscripcionPeriodoProjection> datos = alumnoRepository.obtenerPeriodosDeReinscripcion(matricula);
+        if (datos.isPresent()) {
+            return  datos.get();
+        }
+        return null;
+    }
+
+    public AlumnoDTO getAlumnoConMaterias(String matricula) {
+        List<AlumnoProjection> rows = alumnoRepository.findAlumnoConMaterias(matricula);
+
+        if (rows.isEmpty()) return null;
+
+        // Tomamos datos generales del alumno
+        AlumnoProjection first = rows.get(0);
+
+        // Traemos todos los calendarios del alumno
+        List<CalendarioDTO> calendarios = calendarioExamenRepositoryRepository.findCalendarioExamenes(matricula);
+
+        Map<String, CalendarioDTO> calendariosMap = calendarios.stream()
+                .collect(Collectors.toMap(CalendarioDTO::getMateria, c -> c, (c1, c2) -> c1));
+
+        List<MateriaDTO> materias = rows.stream().map(r -> {
+            CalificacionDTO cal = new CalificacionDTO(
+                    r.getParcial1(),
+                    r.getParcial2(),
+                    r.getParcial3(),
+                    r.getOrdinario(),
+                    r.getPFinal(),
+                    r.getExtra1(),
+                    r.getExtra2(),
+                    r.getEspecial()
+            );
+
+            CalendarioDTO calendario = calendariosMap.get(r.getMateria());
+            return new MateriaDTO(
+                    r.getId_Mat_FK(),
+                    r.getMateria(),
+                    r.getSemestre(),
+                    true, // activo
+                    r.getCiclo(),
+                    cal,calendario
+            );
+        }).toList();
+
+        return new AlumnoDTO(
+                first.getMatricula(),
+                first.getApMaterno(),
+                first.getApPaterno(),
+                first.getNombre(),
+                true,
+                first.getNombre_Car(),
+                materias,
+                new UsuarioDTO(first.getMatricula(),first.getMatricula(),false)
+        );
+    }
 }

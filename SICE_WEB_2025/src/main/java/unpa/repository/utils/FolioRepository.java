@@ -1,4 +1,4 @@
-package unpa.repository;
+package unpa.repository.utils;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import unpa.entity.Folio;

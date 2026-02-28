@@ -1,11 +1,11 @@
-package unpa.repository;
+package unpa.repository.materias;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import unpa.entity.MateriaImpartida;
-import unpa.entity.MateriaImpartidaData;
-import unpa.entity.MateriaImpartidaId;
+import unpa.entity.materias.MateriaImpartida;
+import unpa.entity.materias.MateriaImpartidaData;
+import unpa.entity.materias.MateriaImpartidaId;
 
 public interface MateriaImpartidaRepository extends JpaRepository<MateriaImpartida, MateriaImpartidaId> {
     @Query(value = """

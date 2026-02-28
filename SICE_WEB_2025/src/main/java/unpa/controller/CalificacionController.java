@@ -2,8 +2,8 @@ package unpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import unpa.entity.CalificacionMateriaDTO;
-import unpa.service.CalificacionService;
+import unpa.dto.CalificacionMateriaDTO;
+import unpa.service.materias.CalificacionService;
 
 import java.util.List;
 

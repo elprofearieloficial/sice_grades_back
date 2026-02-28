@@ -1,10 +1,10 @@
-package unpa.service;
+package unpa.service.reportes;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import unpa.entity.Acta;
-import unpa.entity.ActaId;
-import unpa.repository.ActaRepository;
+import unpa.entity.actas.Acta;
+import unpa.entity.actas.ActaId;
+import unpa.repository.reportes.ActaRepository;
 
 import java.util.Optional;
 

@@ -1,13 +1,9 @@
-package unpa.service;
+package unpa.service.reportes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import unpa.entity.ProfesorReporteProjection;
-import unpa.repository.ProfesorReporteRepository;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import unpa.entity.profesores.ProfesorReporteProjection;
+import unpa.repository.profesores.ProfesorReporteRepository;
 
 @Service
 public class ReporteProfesorService {

@@ -1,11 +1,11 @@
-package unpa.repository;
+package unpa.repository.universidad;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import unpa.entity.JefeCarrera;
-import unpa.entity.JefeCarreraDTO;
+import unpa.entity.universidad.JefeCarrera;
+import unpa.entity.universidad.JefeCarreraDTO;
 
 @Repository
 public interface JefeCarreraRepository extends JpaRepository<JefeCarrera, String> {
