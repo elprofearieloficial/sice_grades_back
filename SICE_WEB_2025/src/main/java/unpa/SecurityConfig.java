@@ -18,7 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import unpa.service.AlumnoDetailsService;
+import unpa.config.TenantFilter; // 👈 IMPORTANTE: Añade el import de tu filtro
 
 @Configuration
 @EnableWebSecurity
@@ -26,9 +28,9 @@ public class SecurityConfig {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthFilter;
-    @Autowired
-    private  UserDetailsService userDetailsService;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -46,39 +48,43 @@ public class SecurityConfig {
         return source;
     }
 
-
-
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        // 👈 Instanciamos nuestro filtro "Cadenero"
+        TenantFilter tenantFilter = new TenantFilter();
+
         return http
-                .cors(Customizer.withDefaults()) // 👈 Esto es esencial para aplicar tu CorsConfigurationSource
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/reportes/**").permitAll() //  // 👈 Aquí lo añadimos
+                        .requestMatchers("/reportes/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
+
+                // 👇 EL ORDEN MÁGICO 👇
+                // 1. Agregamos el filtro JWT de siempre
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                // 2. Le decimos que ponga el TenantFilter EXACTAMENTE ANTES del JWT
+                .addFilterBefore(tenantFilter, JwtAuthenticationFilter.class)
+
                 .build();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService); // Tu clase que implementa UserDetailsService
+        provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // O el encoder que uses
+        return new BCryptPasswordEncoder();
     }
-
-
 }

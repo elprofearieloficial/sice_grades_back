@@ -1,7 +1,6 @@
 package unpa.controller;
 
-
-import jakarta.persistence.Id;
+import unpa.config.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,14 +26,40 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        //if (request.getMatricula().equals("18080068") && request.getPassword().equals("1234")) {
-        System.out.println("Matricula:"+request.getMatricula() + " Password: " +  request.getPassword());
-        if (usuarioService.existeUsuario(request.getMatricula(), request.getPassword())){
+        System.out.println("Intentando login - Matricula: " + request.getMatricula());
+
+        String campusEncontrado = null;
+
+        try {
+            // 1. Buscar en CAMPUS 1 (escolares)
+            TenantContext.setCurrentTenant("CAMPUS1");
+            if (usuarioService.existeUsuario(request.getMatricula(), request.getPassword())) {
+                campusEncontrado = "CAMPUS1";
+            } else {
+                // 2. Si no está en el 1, buscar en CAMPUS 2 (escolares2)
+                TenantContext.setCurrentTenant("CAMPUS2");
+                if (usuarioService.existeUsuario(request.getMatricula(), request.getPassword())) {
+                    campusEncontrado = "CAMPUS2";
+                }
+            }
+
+            // 3. Evaluar el resultado
+            if (campusEncontrado != null) {
                 AlumnoDetails alumno = new AlumnoDetails(request.getMatricula(), request.getMatricula());
+
+                // Generamos el token
                 String token = jwtService.generateToken(alumno);
-                return ResponseEntity.ok(new AuthResponse(token));
-        } else {
+
+                // IMPORTANTE: Devolvemos el token Y el campus al que pertenece
+                return ResponseEntity.ok(new AuthResponse(token, campusEncontrado));
+            } else {
                 return ResponseEntity.status(401).body("Credenciales inválidas");
+            }
+
+        } finally {
+            // 4. Limpieza OBLIGATORIA
+            // Siempre debemos limpiar el contexto al terminar para no afectar otras peticiones
+            TenantContext.clear();
         }
     }
 }
