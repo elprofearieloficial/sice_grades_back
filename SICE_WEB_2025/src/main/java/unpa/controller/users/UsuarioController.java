@@ -9,6 +9,8 @@ import unpa.service.users.UsuarioService;
 import java.util.HashMap;
 import java.util.Map;
 
+
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.PUT, RequestMethod.OPTIONS})
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
