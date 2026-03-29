@@ -26,6 +26,12 @@ public class AvisoService {
                 .toList();
     }
 
+    public List<AvisoResponse> listarParaAlumnos() {
+        return repository.findAvisosParaAlumnos().stream()
+                .map(AvisoMapper::toResponse)
+                .toList();
+    }
+
     public Optional<AvisoResponse> buscarPorId(AvisoId id) {
         return repository.findById(id)
                 .map(AvisoMapper::toResponse);

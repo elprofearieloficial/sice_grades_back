@@ -1,10 +1,6 @@
 package unpa.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 import unpa.dto.AvisoRequest;
 import unpa.dto.AvisoResponse;
@@ -24,11 +20,15 @@ public class AvisoController {
         this.service = service;
     }
 
-    @GetMapping
+    /*@GetMapping
     public List<AvisoResponse> listarTodos() {
         return service.listarTodos();
-    }
+    }*/
 
+    @GetMapping
+    public List<AvisoResponse> listarAvisosParaAlumnos() {
+        return service.listarParaAlumnos(); 
+    }
 
 
     @PostMapping
