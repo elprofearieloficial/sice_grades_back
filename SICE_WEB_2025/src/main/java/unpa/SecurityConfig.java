@@ -19,7 +19,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import unpa.service.AlumnoDetailsService;
 import unpa.config.TenantFilter; // 👈 IMPORTANTE: Añade el import de tu filtro
 
 @Configuration
@@ -58,20 +57,19 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/reportes/**").permitAll()
-                        .anyRequest().authenticated()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/reportes/**").permitAll()
+                .requestMatchers("/vm2/fotos-perfil/**", "/api/fotos-perfil/**").permitAll()
+                .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
-
                 // 👇 EL ORDEN MÁGICO 👇
                 // 1. Agregamos el filtro JWT de siempre
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 // 2. Le decimos que ponga el TenantFilter EXACTAMENTE ANTES del JWT
                 .addFilterBefore(tenantFilter, JwtAuthenticationFilter.class)
-
                 .build();
     }
 
