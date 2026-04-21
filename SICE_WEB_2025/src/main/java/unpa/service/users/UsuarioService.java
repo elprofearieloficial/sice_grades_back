@@ -3,7 +3,9 @@ package unpa.service.users;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import unpa.entity.Alumnos.FotoPerfil;
 import unpa.entity.user.Usuario;
+import unpa.repository.alumnos.FotoPerfilRepository;
 import unpa.repository.users.UsuarioRepository;
 
 import java.util.Optional;
@@ -13,6 +15,8 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private FotoPerfilRepository fotoPerfilRepository;
 
 
     public boolean cambiarPassword(String matricula, String passwordActual, String passwordNueva) {
@@ -49,6 +53,14 @@ public class UsuarioService {
         }).orElse(
                 false
         );
+    }
+
+    public String guardarFotoPerfilUrl(String matricula, String url) {
+        FotoPerfil fotoPerfil = new FotoPerfil();
+        fotoPerfil.setMatricula(matricula);
+        fotoPerfil.setUrl(url);
+        fotoPerfilRepository.save(fotoPerfil);
+        return url;
     }
 }
 

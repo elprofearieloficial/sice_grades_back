@@ -37,6 +37,8 @@ public class AlumnoService {
 
     @Autowired
     private CalendarioExamenRepository calendarioExamenRepositoryRepository;
+    @Autowired
+    private FotoPerfilRepository fotoPerfilRepository;
 
     @Value("${valores.promedioMinimo:6}")
     private float promedioMinimo; // si usas una constante, puedes usar 6 directamente
@@ -233,15 +235,16 @@ public class AlumnoService {
             );
         }).toList();
 
-        return new AlumnoDTO(
-                first.getMatricula(),
-                first.getApMaterno(),
-                first.getApPaterno(),
-                first.getNombre(),
-                true,
-                first.getNombre_Car(),
-                materias,
-                new UsuarioDTO(first.getMatricula(),first.getMatricula(),false)
-        );
+        AlumnoDTO alumnoDTO = new AlumnoDTO();
+        alumnoDTO.setMatricula(first.getMatricula());
+        alumnoDTO.setApMaterno(first.getApMaterno());
+        alumnoDTO.setApPaterno(first.getApPaterno());
+        alumnoDTO.setNombre(first.getNombre());
+        alumnoDTO.setEsRegular(true);
+        alumnoDTO.setNombreCarrera(first.getNombre_Car());
+        alumnoDTO.setFotoPerfilUrl(fotoPerfilRepository.findById(first.getMatricula()).map(FotoPerfil::getUrl).orElse(null));
+        alumnoDTO.setMaterias(materias);
+        alumnoDTO.setUsuario(new UsuarioDTO(first.getMatricula(), first.getMatricula(), false));
+        return alumnoDTO;
     }
 }
