@@ -62,6 +62,10 @@ public class UsuarioService {
         fotoPerfilRepository.save(fotoPerfil);
         return url;
     }
+
+    public Optional<String> obtenerFotoPerfilUrl(String matricula) {
+        return fotoPerfilRepository.findById(matricula).map(FotoPerfil::getUrl);
+    }
 }
 
 

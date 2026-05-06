@@ -88,6 +88,14 @@ public class UsuarioController {
             return ResponseEntity.internalServerError().body(Map.of("error", "No se pudo guardar la imagen"));
         }
     }
+
+    @GetMapping("/{matricula}/foto-perfil")
+    public ResponseEntity<Map<String, String>> obtenerFotoPerfil(@PathVariable("matricula") String matricula) {
+        return usuarioService.obtenerFotoPerfilUrl(matricula)
+                .map(url -> ResponseEntity.ok(Map.of("url", url)))
+                .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "Foto no encontrada")));
+    }
+
 }
 
 

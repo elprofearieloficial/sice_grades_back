@@ -59,7 +59,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/auth/forgot-password").permitAll()
+                .requestMatchers("/auth/reset-password").permitAll()
                 .requestMatchers("/reportes/**").permitAll()
+                .requestMatchers("/usuarios/*/foto-perfil").permitAll()
                 .requestMatchers("/vm2/fotos-perfil/**", "/api/fotos-perfil/**").permitAll()
                 .anyRequest().authenticated()
                 )
