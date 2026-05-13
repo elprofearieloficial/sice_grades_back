@@ -1,6 +1,7 @@
 package unpa.service.avisos;
 
 import org.springframework.stereotype.Service;
+import unpa.dto.AvisoLeidoRequest;
 import unpa.dto.AvisoRequest;
 import unpa.dto.AvisoResponse;
 import unpa.entity.avisos.Aviso;
@@ -22,6 +23,12 @@ public class AvisoService {
 
     public List<AvisoResponse> listarTodos() {
         return repository.findAll().stream()
+                .map(AvisoMapper::toResponse)
+                .toList();
+    }
+
+    public List<AvisoResponse> listarNoLeidosPorMatricula(String matricula) {
+        return repository.findNoLeidosByMatricula(matricula).stream()
                 .map(AvisoMapper::toResponse)
                 .toList();
     }
@@ -53,5 +60,21 @@ public class AvisoService {
 
     public void eliminar(AvisoId id) {
         repository.deleteById(id);
+    }
+
+    public void marcarComoLeido(String matricula, AvisoLeidoRequest request) {
+        if (matricula == null || matricula.isBlank()) {
+            throw new IllegalArgumentException("La matricula es obligatoria");
+        }
+        if (request.getIdAvi() == null || request.getCicloId() == null || request.getPeriodoId() == null) {
+            throw new IllegalArgumentException("Datos del aviso incompletos");
+        }
+
+        repository.marcarAvisoLeido(
+                request.getIdAvi(),
+                request.getCicloId(),
+                request.getPeriodoId(),
+                matricula
+        );
     }
 }
