@@ -48,11 +48,30 @@ public class UsuarioService {
     }
 
     public Boolean existeUsuario(String nombreUsuario, String claveUsuario) {
-        return obtenerUsuario(nombreUsuario,claveUsuario).map(usuario -> {
-                return true;
-        }).orElse(
-                false
-        );
+        return obtenerUsuario(nombreUsuario, claveUsuario).isPresent();
+    }
+
+    public boolean cuentaBloqueada(String nombreUsuario, String claveUsuario) {
+        return obtenerUsuario(nombreUsuario, claveUsuario)
+                .map(usuario -> usuario.getEstado() != null && usuario.getEstado() == 0)
+                .orElse(false);
+    }
+
+    public boolean esUsuarioEscolar(String nombreUsuario) {
+        return usuarioRepository.esUsuarioEscolar(nombreUsuario) > 0;
+    }
+
+    public String buscarCampusLoginServicios(String nombreUsuario, String claveUsuario) {
+        if (!existeUsuario(nombreUsuario, claveUsuario)) {
+            return null;
+        }
+        if (cuentaBloqueada(nombreUsuario, claveUsuario)) {
+            return "BLOQUEADA";
+        }
+        if (!esUsuarioEscolar(nombreUsuario)) {
+            return "NO_ESCOLAR";
+        }
+        return "OK";
     }
 
     public String guardarFotoPerfilUrl(String matricula, String url) {

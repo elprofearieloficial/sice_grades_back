@@ -36,5 +36,61 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
             LIMIT 1
             """, nativeQuery = true)
     Optional<String> findMatriculaByCorreo(@Param("correo") String correo);
+
+    @Query(value = """
+            SELECT d.Email_Dat
+            FROM alumnos a
+            INNER JOIN datospersonales d
+                ON d.Id_Dat = a.Id_Dat_FK
+               AND d.Ano_Dat = a.Ano_Dat_FK
+            WHERE a.Id_Alu = :matricula
+              AND d.Email_Dat IS NOT NULL
+              AND d.Email_Dat <> ''
+            LIMIT 1
+            """, nativeQuery = true)
+    Optional<String> findCorreoByMatricula(@Param("matricula") String matricula);
+
+    @Transactional
+    @Modifying
+    @Query(value = """
+            UPDATE usuarios
+               SET Estado_Usu = 0,
+                   Errorconectar_Usu = 0,
+                   Fechabloqueo_Usu = CURDATE()
+             WHERE Nombre_Usu = SHA(:matricula)
+            """, nativeQuery = true)
+    int bloquearCuenta(@Param("matricula") String matricula);
+
+    @Transactional
+    @Modifying
+    @Query(value = """
+            UPDATE usuarios
+               SET Clave_Usu = SHA(:matricula),
+                   Estado_Usu = 1,
+                   Errorconectar_Usu = 0,
+                   Fechabloqueo_Usu = CURDATE()
+             WHERE Nombre_Usu = SHA(:matricula)
+            """, nativeQuery = true)
+    int reiniciarPasswordYDesbloquear(@Param("matricula") String matricula);
+
+    @Query(value = """
+            SELECT COUNT(1)
+            FROM usuariosescolares ue
+            INNER JOIN usuarios u ON u.Nombre_Usu = ue.Nombre_Usu_FK
+            WHERE u.Nombre_Usu = SHA(:nombreUsuario)
+            """, nativeQuery = true)
+    long esUsuarioEscolar(@Param("nombreUsuario") String nombreUsuario);
+
+    @Query(value = """
+            SELECT t.Id_Tra
+            FROM trabajadores t
+            INNER JOIN usuariosescolares ue ON ue.Id_Tra_FK = t.Id_Tra
+            INNER JOIN usuarios u ON u.Nombre_Usu = ue.Nombre_Usu_FK
+            WHERE LOWER(TRIM(t.Email_Tra)) = LOWER(TRIM(:correo))
+              AND t.Email_Tra IS NOT NULL
+              AND TRIM(t.Email_Tra) <> ''
+            LIMIT 1
+            """, nativeQuery = true)
+    Optional<String> findLoginServiciosByCorreo(@Param("correo") String correo);
 }
 

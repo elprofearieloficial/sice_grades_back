@@ -1,21 +1,46 @@
 package unpa.service.alumnos;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import unpa.dto.*;
-import unpa.entity.Alumnos.*;
-import unpa.entity.universidad.Carrera;
-import unpa.entity.utils.FechaUtils;
-import unpa.repository.materias.CalendarioExamenRepository;
-import unpa.repository.materias.MateriaRepository;
-import unpa.repository.alumnos.*;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import unpa.dto.AlumnoConstanciaDTO;
+import unpa.dto.AlumnoDTO;
+import unpa.dto.AlumnoProjection;
+import unpa.dto.CalendarioDTO;
+import unpa.dto.CalificacionDTO;
+import unpa.dto.MateriaCursadaDTO;
+import unpa.dto.MateriaDTO;
+import unpa.dto.MateriaResultadoDTO;
+import unpa.dto.UsuarioDTO;
+import unpa.entity.Alumnos.AlumnoMatriculado;
+import unpa.entity.Alumnos.DatosPersonales;
+import unpa.entity.Alumnos.Ficha;
+import unpa.entity.Alumnos.FichaId;
+import unpa.entity.Alumnos.FotoPerfil;
+import unpa.entity.Alumnos.ReinscripcionPeriodoProjection;
+import unpa.entity.universidad.Carrera;
+import unpa.entity.utils.FechaUtils;
+import unpa.repository.alumnos.AlumnoRepository;
+import unpa.repository.alumnos.CarreraRepository;
+import unpa.repository.alumnos.DatosPersonalesRepository;
+import unpa.repository.alumnos.FichaRepository;
+import unpa.repository.alumnos.FotoPerfilRepository;
+import unpa.repository.alumnos.ReinscripcionRepository;
+import unpa.repository.materias.CalendarioExamenRepository;
+import unpa.repository.materias.MateriaRepository;
 
 @Service
 public class AlumnoService {

@@ -23,12 +23,9 @@ public class AlumnoDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String matricula) throws UsernameNotFoundException {
         System.out.println("Cargando usuario: " + matricula);
-        Usuario usuario = usuarioService.obtenerUsuario(matricula).get();
-        // Aquí normalmente buscarías en tu BD, por ahora usamos hardcoded:
-        if (usuario!=null) {
-            return new AlumnoDetails(matricula,usuario.getClave()); // Clase que implementa UserDetails
-        }
-        throw new UsernameNotFoundException("Usuario no encontrado");
+        return usuarioService.obtenerUsuario(matricula)
+                .map(usuario -> new AlumnoDetails(matricula, usuario.getClave()))
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
     }
 
 

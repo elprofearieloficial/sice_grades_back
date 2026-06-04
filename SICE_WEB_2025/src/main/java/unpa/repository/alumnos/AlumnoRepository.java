@@ -1,16 +1,17 @@
 package unpa.repository.alumnos;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
 import unpa.dto.AlumnoProjection;
+import unpa.dto.MateriaCursadaDTO;
 import unpa.entity.Alumnos.AlumnoMatriculado;
 import unpa.entity.Alumnos.ReinscripcionPeriodoProjection;
-import unpa.dto.MateriaCursadaDTO;
-
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface AlumnoRepository extends JpaRepository<AlumnoMatriculado, String> {
