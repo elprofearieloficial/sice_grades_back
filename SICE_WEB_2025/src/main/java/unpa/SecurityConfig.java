@@ -79,8 +79,22 @@ public class SecurityConfig {
                         "/vm2/seguridad/reportes-acceso-no-autorizado/validar-codigo"
                 ).permitAll()
                 .requestMatchers("/reportes/**").permitAll()
-                .requestMatchers("/usuarios/*/foto-perfil").permitAll()
+                .requestMatchers(
+                        HttpMethod.POST,
+                        "/usuarios/*/foto-perfil",
+                        "/vm2/usuarios/*/foto-perfil",
+                        "/usuarios/*/foto-credencial",
+                        "/vm2/usuarios/*/foto-credencial"
+                ).permitAll()
+                .requestMatchers(
+                        HttpMethod.GET,
+                        "/usuarios/*/foto-perfil",
+                        "/vm2/usuarios/*/foto-perfil",
+                        "/usuarios/*/foto-credencial",
+                        "/vm2/usuarios/*/foto-credencial"
+                ).permitAll()
                 .requestMatchers("/vm2/fotos-perfil/**", "/api/fotos-perfil/**").permitAll()
+                .requestMatchers("/vm2/fotos-credencial/**", "/api/fotos-credencial/**").permitAll()
                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

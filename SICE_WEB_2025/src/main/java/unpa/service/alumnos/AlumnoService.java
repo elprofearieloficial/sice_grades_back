@@ -29,6 +29,7 @@ import unpa.entity.Alumnos.AlumnoMatriculado;
 import unpa.entity.Alumnos.DatosPersonales;
 import unpa.entity.Alumnos.Ficha;
 import unpa.entity.Alumnos.FichaId;
+import unpa.entity.Alumnos.FotoCredencial;
 import unpa.entity.Alumnos.FotoPerfil;
 import unpa.entity.Alumnos.ReinscripcionPeriodoProjection;
 import unpa.entity.universidad.Carrera;
@@ -37,6 +38,7 @@ import unpa.repository.alumnos.AlumnoRepository;
 import unpa.repository.alumnos.CarreraRepository;
 import unpa.repository.alumnos.DatosPersonalesRepository;
 import unpa.repository.alumnos.FichaRepository;
+import unpa.repository.alumnos.FotoCredencialRepository;
 import unpa.repository.alumnos.FotoPerfilRepository;
 import unpa.repository.alumnos.ReinscripcionRepository;
 import unpa.repository.materias.CalendarioExamenRepository;
@@ -64,6 +66,8 @@ public class AlumnoService {
     private CalendarioExamenRepository calendarioExamenRepositoryRepository;
     @Autowired
     private FotoPerfilRepository fotoPerfilRepository;
+    @Autowired
+    private FotoCredencialRepository fotoCredencialRepository;
 
     @Value("${valores.promedioMinimo:6}")
     private float promedioMinimo; // si usas una constante, puedes usar 6 directamente
@@ -268,6 +272,7 @@ public class AlumnoService {
         alumnoDTO.setEsRegular(true);
         alumnoDTO.setNombreCarrera(first.getNombre_Car());
         alumnoDTO.setFotoPerfilUrl(fotoPerfilRepository.findById(first.getMatricula()).map(FotoPerfil::getUrl).orElse(null));
+        alumnoDTO.setFotoCredencialUrl(fotoCredencialRepository.findById(first.getMatricula()).map(FotoCredencial::getUrl).orElse(null));
         alumnoDTO.setMaterias(materias);
         alumnoDTO.setUsuario(new UsuarioDTO(first.getMatricula(), first.getMatricula(), false));
         return alumnoDTO;

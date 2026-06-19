@@ -10,6 +10,7 @@ public class AlumnoDTO {
     private Boolean esRegular = true;
     private String nombreCarrera;
     private String fotoPerfilUrl;
+    private String fotoCredencialUrl;
     private List<MateriaDTO> materias;
     private UsuarioDTO usuario;
 
@@ -83,6 +84,14 @@ public class AlumnoDTO {
 
     public void setFotoPerfilUrl(String fotoPerfilUrl) {
         this.fotoPerfilUrl = fotoPerfilUrl;
+    }
+
+    public String getFotoCredencialUrl() {
+        return fotoCredencialUrl;
+    }
+
+    public void setFotoCredencialUrl(String fotoCredencialUrl) {
+        this.fotoCredencialUrl = fotoCredencialUrl;
     }
 
     public List<MateriaDTO> getMaterias() {

@@ -14,10 +14,17 @@ public class WebStaticConfig implements WebMvcConfigurer {
     @Value("${app.uploads.dir:./uploads/perfiles}")
     private String uploadDir;
 
+    @Value("${app.uploads.credencial-dir:./uploads/credenciales}")
+    private String credencialUploadDir;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
         registry.addResourceHandler("/vm2/fotos-perfil/**")
                 .addResourceLocations("file:" + uploadPath + "/");
+
+        Path credencialPath = Paths.get(credencialUploadDir).toAbsolutePath().normalize();
+        registry.addResourceHandler("/vm2/fotos-credencial/**")
+                .addResourceLocations("file:" + credencialPath + "/");
     }
 }

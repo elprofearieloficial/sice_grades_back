@@ -81,9 +81,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
-        // Excluye login (ajusta el path según tu ruta real, como /api/auth/login si aplica)
-        return path.equals("/auth/login");
-
+        if (path.equals("/auth/login") || path.equals("/vm2/auth/login")) {
+            return true;
+        }
+        return path.matches("^(/vm2)?/usuarios/[^/]+/foto-perfil$")
+                || path.matches("^(/vm2)?/usuarios/[^/]+/foto-credencial$");
     }
 }
 

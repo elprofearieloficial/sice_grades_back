@@ -32,6 +32,12 @@ public class UsuarioController {
     @Value("${app.uploads.public-base-url:/vm2/fotos-perfil}")
     private String publicBaseUrl;
 
+    @Value("${app.uploads.credencial-dir:./uploads/credenciales}")
+    private String credencialUploadDir;
+
+    @Value("${app.uploads.credencial-public-base-url:/vm2/fotos-credencial}")
+    private String credencialPublicBaseUrl;
+
     @PutMapping("cambiarpassword/{matricula}/")
     public ResponseEntity<Map<String, String>> cambiarPassword(
             @PathVariable("matricula") String matricula,
@@ -92,6 +98,48 @@ public class UsuarioController {
     @GetMapping("/{matricula}/foto-perfil")
     public ResponseEntity<Map<String, String>> obtenerFotoPerfil(@PathVariable("matricula") String matricula) {
         return usuarioService.obtenerFotoPerfilUrl(matricula)
+                .map(url -> ResponseEntity.ok(Map.of("url", url)))
+                .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "Foto no encontrada")));
+    }
+
+    @PostMapping(value = "/{matricula}/foto-credencial", consumes = "multipart/form-data")
+    public ResponseEntity<Map<String, String>> subirFotoCredencial(
+            @PathVariable("matricula") String matricula,
+            @RequestPart("file") MultipartFile file) {
+
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Archivo vacio"));
+        }
+
+        String contentType = file.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Solo se permiten imagenes"));
+        }
+
+        try {
+            Path storageDir = Paths.get(credencialUploadDir).toAbsolutePath().normalize();
+            Files.createDirectories(storageDir);
+
+            String original = Optional.ofNullable(file.getOriginalFilename()).orElse("foto");
+            String extension = original.contains(".")
+                    ? original.substring(original.lastIndexOf('.'))
+                    : ".jpg";
+            String safeFileName = matricula + "_cred_" + UUID.randomUUID() + extension;
+
+            Path destination = storageDir.resolve(safeFileName).normalize();
+            Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
+
+            String fotoUrl = credencialPublicBaseUrl + "/" + safeFileName;
+            usuarioService.guardarFotoCredencialUrl(matricula, fotoUrl);
+            return ResponseEntity.ok(Map.of("url", fotoUrl));
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "No se pudo guardar la imagen"));
+        }
+    }
+
+    @GetMapping("/{matricula}/foto-credencial")
+    public ResponseEntity<Map<String, String>> obtenerFotoCredencial(@PathVariable("matricula") String matricula) {
+        return usuarioService.obtenerFotoCredencialUrl(matricula)
                 .map(url -> ResponseEntity.ok(Map.of("url", url)))
                 .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "Foto no encontrada")));
     }
